@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>We're logged IN</h1>
+    <form action="/logout" method="GET">
+        <input type="submit" value="Logout">
+    </form>
+    <script>
+        (async function() {
+            const data = await fetch(window.location.href);
+            const user = await data.text();
+            console.log(user);
+        })();
+    </script>
+</body>
+
+</html>
