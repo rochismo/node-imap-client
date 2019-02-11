@@ -1,34 +1,31 @@
 const Box = require('../model/box');
 const Email = require('../model/email');
+const Imap = require("imap")
 module.exports = class Fetcher {
     constructor(conn) {
         this.conn = conn;
     }
-    
-    async init() {
-        
+
+    setConnection(conn) {
+        this.conn = conn;
     }
 
     async getContainers() {
-        return new Promise((res, rej) => {
-            const containers = [];
-            this.conn.getBoxes((err, b) => {
-                if (err) rej(err);
-                for (let box in b) {
-                    const {attribs, delimiter, children, parent} = b[box];
-                    containers.push(new Box(box, attribs, delimiter, children, parent))
-                }
-                res(containers)
-            })
-        })
+        const boxes = await this.conn.getBoxes();
+        const container = [];
+        for (const box in boxes) {
+            container.push(new Box(box, boxes[box]))
+        }
+        return container;
     }
 
-    async getMails(box) {
-        return new Promise((res, rej) => {
-            this.conn.openBox(box, function(err, mail) {
-                if (err) rej(err);
-                res(new Email(mail));
-            })
-        })
+    async getMails(box, criterias = ["ALL"], options = {bodies: ["HEADER", "TEXT"]}) {
+        await this.conn.openBox(box);
+        const results = await this.conn.search(criterias, options);
+        console.log(results)
+    }
+
+    wipe() {
+        this.conn.end();
     }
 }

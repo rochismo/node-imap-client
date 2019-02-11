@@ -7,7 +7,7 @@
  */
 
 module.exports = class Box {
-    constructor(name, attribs, delimiter, children, parent) {
+    constructor(name, {attribs, delimiter, children, parent}) {
         this.name = name;
         this.attribs = attribs;
         this.delimiter = delimiter;
