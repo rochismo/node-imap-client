@@ -13,9 +13,9 @@
                 <ul class="inbox-nav inbox-divider">
                         <% for (let box of boxes) { %>
                     <li>
-                        <a href="/home" onclick="loadEmails(this.innerHTML)">
+                        <span href="/home" onclick="loadEmails(event, this.innerHTML)">
                             <%= box.name %>
-                        </a>
+                        </span>
                     </li>
                     <%}; %>
 

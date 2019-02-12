@@ -1,6 +1,6 @@
 const Box = require('../model/box');
 const Email = require('../model/email');
-const Imap = require("imap")
+const imaps = require("imap-simple")
 module.exports = class Fetcher {
     constructor(conn) {
         this.conn = conn;
@@ -19,10 +19,17 @@ module.exports = class Fetcher {
         return container;
     }
 
-    async getMails(box, criterias = ["ALL"], options = {bodies: ["HEADER", "TEXT"]}) {
+    async getMails(box, criterias = ["ALL"], options = { bodies: ["HEADER", "TEXT"], struct: true }) {
         await this.conn.openBox(box);
         const results = await this.conn.search(criterias, options);
-        console.log(results)
+        var subjects = results.map(function ({attributes, parts}) {
+            const {date, flags} = attributes;
+            const header = parts[0].body;
+            const body = parts[1].body; 
+            return new Email(date, flags, header, body);
+        });
+
+        return subjects;
     }
 
     wipe() {

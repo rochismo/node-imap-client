@@ -1,11 +1,12 @@
-async function loadEmails(data) {
+async function loadEmails(ev, data) {
+	ev.preventDefault();
 	const box = data.trim();
 	const val = await fetch("/fetch?box="+box);
 	const emails = await val.json();
+	console.log(emails)
 	let html = ``;
 	emails.forEach(email => {
-		const body = email[0].body;
-		const {from, subject} = body;
+		const {from, subject} = email;
 		html += `<tr class="unread">
 		<td class="inbox-small-cells">
 				<input type="checkbox" class="mail-checkbox">

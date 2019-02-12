@@ -19,10 +19,11 @@ const CHECKLOGIN = async (req, res, next) => {
         host = req.body.host;
     const test = new logger(email, password, host);
     let logged;
+    let msg = "Login failed"
     try {
         logged = await test.login(email, password, host);
     } catch(e) {
-        console.log(e)
+        msg = "Connection timed out"
     }
     if (logged) {
         req.conn = logged;
@@ -30,7 +31,7 @@ const CHECKLOGIN = async (req, res, next) => {
         next();
     } else {
         res.render("login", {
-            msg: "Login failed"
+            msg
         });
     }
 }
@@ -87,14 +88,15 @@ router.route("/login")
 
 router.get("/fetch", async function (req, res) {
     const boxName = req.query.box;
-    const emails = await handler.getMails(boxName, ["ALL"])
+    const emails = handler.getMails(boxName, ["ALL"]).then(data => {
+        res.json(data);
+    }).catch(error => res.json(error));
 })
 
 
 router.get("/logout", (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
         handler.wipe();
-
         res.clearCookie('user_sid');
         res.redirect('/login');
     } else {
