@@ -53,7 +53,7 @@
     color: #87e2e7;
     font-size: 12px;
 }
-a .mail-dropdown {
+a span .mail-dropdown {
     background: none repeat scroll 0 0 #80d3d9;
     border-radius: 2px;
     color: #01a7b3;
@@ -89,23 +89,23 @@ ul.inbox-nav li {
     line-height: 45px;
     width: 100%;
 }
-ul.inbox-nav li a {
+ul.inbox-nav li span {
     color: #6a6a6a;
     display: inline-block;
     line-height: 45px;
     padding: 0 20px;
     width: 100%;
 }
-ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
+ul.inbox-nav li span:hover, ul.inbox-nav li.active span, ul.inbox-nav li span:focus {
     background: none repeat scroll 0 0 #d5d7de;
     color: #6a6a6a;
 }
-ul.inbox-nav li a i {
+ul.inbox-nav li span i {
     color: #6a6a6a;
     font-size: 16px;
     padding-right: 10px;
 }
-ul.inbox-nav li a span.label {
+ul.inbox-nav li span span.label {
     margin-top: 13px;
 }
 ul.labels-info li h4 {
